@@ -1,0 +1,17 @@
+/__pycache__
+/doc/llm_chats/
+
+# IntelliJ
+.idea
+*.ipr
+*.iml
+*.iws
+
+# Visual Studio Code
+.vscode
+.factorypath
+
+# Local environment
+.env
+
+
