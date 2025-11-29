@@ -1,0 +1,68 @@
+# Example: Multi-GPU Configuration with Environment Variables
+# ----------------------------------------------------------
+# This example shows how to configure a worker to use a specific GPU
+# and optimize memory usage for VRAM-intensive workflows.
+
+comfyui:
+  type: local_process
+  port: 8200  # Or use 'auto' for automatic port assignment
+
+  paths:
+    comfyui_path:        # Auto-detect
+    python_executable:   # Auto-detect
+
+execution:
+  dry_run: false
+  asynch: false
+  
+  # Command-line arguments for ComfyUI
+  extra_args: "--lowvram --preview-method auto"
+  
+  # Environment variables for the worker process
+  env_vars:
+    # GPU Selection - Use only GPU 1
+    CUDA_VISIBLE_DEVICES: "1"
+    
+    # Memory Management - Reduce CUDA memory fragmentation
+    PYTORCH_CUDA_ALLOC_CONF: "max_split_size_mb:512"
+    
+    # Disable torch compilation (can help with compatibility)
+    TORCH_COMPILE_DISABLE: "1"
+    
+    # Optional: Enable synchronous CUDA operations for debugging
+    # CUDA_LAUNCH_BLOCKING: "1"
+
+# Worker workflow to execute
+workflow: face_restore_optimized.json
+
+
+# ========================================
+# Additional Configuration Examples
+# ========================================
+
+# Example 1: CPU-Only Worker
+# ---------------------------
+# execution:
+#   env_vars:
+#     CUDA_VISIBLE_DEVICES: ""  # Empty string = CPU only
+
+# Example 2: Multi-GPU Worker (use GPUs 0 and 1)
+# -----------------------------------------------
+# execution:
+#   env_vars:
+#     CUDA_VISIBLE_DEVICES: "0,1"
+
+# Example 3: High Memory Worker (for large models)
+# -------------------------------------------------
+# execution:
+#   env_vars:
+#     PYTORCH_CUDA_ALLOC_CONF: "max_split_size_mb:1024"
+#   extra_args: "--highvram"
+
+# Example 4: Debugging Configuration
+# -----------------------------------
+# execution:
+#   env_vars:
+#     CUDA_LAUNCH_BLOCKING: "1"
+#     TORCH_DISTRIBUTED_DEBUG: "DETAIL"
+#   extra_args: "--verbose"

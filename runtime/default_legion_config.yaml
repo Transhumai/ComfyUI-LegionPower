@@ -1,0 +1,57 @@
+# Legion Configuration
+# ---------------------------
+# This is the default template for a worker's configuration.
+# You can edit this file to change what appears in the "Legion: Configuration"
+# node when you first create it.
+
+comfyui:
+  # 'type': The type of worker. For now, only 'local_process' is supported. 'docker' will be added in the future.
+  type: local_process
+
+  # 'port': The port on which the worker will listen.
+  #         'auto' will use the automatic port management defined in the global config.yaml.
+  port: auto
+
+  # 'paths': Paths used by the worker.
+  paths:
+    # 'comfyui_path': Path to the main ComfyUI root directory (required to launch a local worker).
+    #                Leave empty to attempt auto-detection.
+    comfyui_path:
+
+    # 'python_executable': Path to the python executable to use to run comfyui (required to launch a local worker).
+    #                      Leave empty to attempt auto-detection.
+    python_executable:
+
+    # 'custom_nodes_template': The name of the template folder in 'runtime/ComfyUIs'
+    #                          to be used for this worker's custom nodes.
+    custom_nodes_template: "OnlyCPU"
+
+
+# 'execution': Settings related to the execution environment.
+execution:
+  # 'dry_run': set this to true if you just want to test the input/output mechanics, results will be
+  #            simulated, external comfyui execution will not be run
+  dry_run: false
+
+  # 'asynch': set this to true if you just want to execute the external workflow in an asynch mode,
+  #           you need either "Legion: Join Campaign" or "Legion: Join All Campaigns" node/s to get the results (output_X)
+  asynch: false
+
+  # 'extra_args': use this to pass additional command line arguments to the launch of the external ComfyUI
+  #               Leave empty if you don't need extra arguments
+  #               Examples: "--gpu-only --preview-method auto" or ["--gpu-only", "--preview-method", "auto"]
+  extra_args:
+
+  # 'env_vars': use this to set environment variables for the worker process
+  #             Useful for GPU selection, compilation settings, etc.
+  #             Examples:
+  #               CUDA_VISIBLE_DEVICES: "1"              # Use only GPU 1
+  #               TORCH_COMPILE_DISABLE: "1"             # Disable torch compilation
+  #               PYTORCH_CUDA_ALLOC_CONF: "max_split_size_mb:512"
+  env_vars:
+    # CUDA_VISIBLE_DEVICES: "0"
+    # TORCH_COMPILE_DISABLE: "1"
+
+
+# 'workflow': path on disk of the workflow to run in the other comfyui instance
+workflow: # plain_face_restore_api.json

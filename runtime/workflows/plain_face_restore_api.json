@@ -1,0 +1,67 @@
+{
+  "5": {
+    "inputs": {
+      "directory": [
+        "8",
+        0
+      ],
+      "image_load_cap": 0,
+      "skip_first_images": 0,
+      "select_every_nth": 1
+    },
+    "class_type": "VHS_LoadImagesPath",
+    "_meta": {
+      "title": "Load Images (Path) 🎥🅥🅗🅢"
+    }
+  },
+  "6": {
+    "inputs": {
+      "output_path": [
+        "9",
+        0
+      ],
+      "images": [
+        "7",
+        0
+      ]
+    },
+    "class_type": "ImagesSave",
+    "_meta": {
+      "title": "🔥ImagesSave"
+    }
+  },
+  "7": {
+    "inputs": {
+      "facedetection": "YOLOv5l",
+      "model": "codeformer-v0.1.0.pth",
+      "visibility": 1,
+      "codeformer_weight": 0.5,
+      "image": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "ReActorRestoreFace",
+    "_meta": {
+      "title": "Restore Face 🌌 ReActor"
+    }
+  },
+  "8": {
+    "inputs": {
+      "value": "D:\\~J\\C~Disks~E\\development.2023\\programs\\ComfyUI\\ComfyUI\\output\\4fans\\tmp\\input"
+    },
+    "class_type": "PrimitiveString",
+    "_meta": {
+      "title": "input_path"
+    }
+  },
+  "9": {
+    "inputs": {
+      "value": "D:\\~J\\C~Disks~E\\development.2023\\programs\\ComfyUI\\ComfyUI\\output\\4fans\\tmp\\output"
+    },
+    "class_type": "PrimitiveString",
+    "_meta": {
+      "title": "output_path"
+    }
+  }
+}

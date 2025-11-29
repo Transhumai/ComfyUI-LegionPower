@@ -1,5 +1,5 @@
-/__pycache__
-/doc/llm_chats/
+__pycache__/
+doc/llm_chats/
 
 # IntelliJ
 .idea

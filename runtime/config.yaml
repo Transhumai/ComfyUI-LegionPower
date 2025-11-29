@@ -1,0 +1,12 @@
+ports:
+  start_port: 8200
+  max_workers: 20
+paths:
+  worker_templates_dir: "{legion_runtime}/ComfyUIs"
+  workflows_roots:
+    - "{legion_runtime}/workflows"
+    - "{comfyui_root}/user/default/workflows"
+  data_exchange_root: "{legion_runtime}/data_exchange"
+  temp_root_dir: "{legion_runtime}/temp"
+logging:
+  level: INFO
