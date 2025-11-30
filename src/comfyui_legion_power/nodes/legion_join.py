@@ -28,14 +28,24 @@ class LegionJoinNode:
         is_async = legion_campaign.config.get("execution.asynch", False)
 
         if not is_async:
-            # Sync campaign: work is already done, no need to wait
-            print(f"[Legion Join] Campaign is SYNC mode - work already completed, skipping wait")
-        else:
-            # Async campaign: wait for execution thread if present
-            if hasattr(legion_campaign, 'execution_thread') and legion_campaign.execution_thread:
-                print(f"[Legion Join] Waiting for async execution to complete...")
-                legion_campaign.execution_thread.join()  # Block until thread completes
-                print(f"[Legion Join] Async execution completed!")
+            # Sync campaign: outputs should be stored in campaign object
+            print(f"[Legion Join] Campaign is SYNC mode - reading outputs from campaign object")
+
+            if hasattr(legion_campaign, 'outputs'):
+                # Outputs were stored by Master in sync mode
+                outputs = legion_campaign.outputs
+                print(f"[Legion Join] Retrieved {len([o for o in outputs if o is not None])} outputs from campaign")
+                return outputs[:5]  # Return first 5 outputs
+            else:
+                # Fallback: this shouldn't happen in normal flow
+                print(f"[Legion Join] WARNING: Sync campaign has no stored outputs!")
+                return (None, None, None, None, None)
+
+        # Async campaign: wait for execution thread and read from files
+        if hasattr(legion_campaign, 'execution_thread') and legion_campaign.execution_thread:
+            print(f"[Legion Join] Waiting for async execution to complete...")
+            legion_campaign.execution_thread.join()  # Block until thread completes
+            print(f"[Legion Join] Async execution completed!")
 
         # Check campaign status
         if legion_campaign.status == "FAILED":

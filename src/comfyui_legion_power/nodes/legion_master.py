@@ -47,6 +47,11 @@ class LegionMasterNode:
         # ALWAYS create a new campaign for each execution to avoid state reuse
         campaign = LegionCampaign(config=config)
 
+        # Cleanup old output references from previous executions (if any exist in memory)
+        # This allows Python's GC to free memory from previous runs
+        if legion_campaign and hasattr(legion_campaign, 'outputs'):
+            legion_campaign.outputs = None  # Release reference to old outputs
+
         # 2. Ensure Worker is Alive
         LegionWorkerManager.ensure_worker_is_alive(campaign)
         campaign.status = "WARMED_UP"
@@ -234,6 +239,10 @@ class LegionMasterNode:
                         deserialized_outputs.get("input_11"),
                         deserialized_outputs.get("input_12"),
                     )
+
+                    # In SYNC mode, store outputs in campaign for potential Join node
+                    # This allows Join to retrieve outputs even after cleanup
+                    campaign.outputs = final_outputs[1:]  # Exclude campaign itself from outputs
 
                 # Cleanup
                 file_manager.cleanup()

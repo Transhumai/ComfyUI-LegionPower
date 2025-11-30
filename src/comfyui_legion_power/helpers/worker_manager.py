@@ -140,7 +140,7 @@ class LegionWorkerManager:
 
             print(f"[LegionPower] Worker process launched with PID: {process.pid}. Waiting for it to come online...")
 
-            for _ in range(20):
+            for _ in range(200):
                 if LegionWorkerManager.is_worker_alive(port_to_launch):
                     print(f"[LegionPower] Worker on port {port_to_launch} is now online.")
                     return
