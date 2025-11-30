@@ -140,13 +140,26 @@ class LegionWorkerManager:
 
             print(f"[LegionPower] Worker process launched with PID: {process.pid}. Waiting for it to come online...")
 
-            for _ in range(200):
-                if LegionWorkerManager.is_worker_alive(port_to_launch):
-                    print(f"[LegionPower] Worker on port {port_to_launch} is now online.")
-                    return
-                time.sleep(1.5)
+            # Get startup timeout - priority: legion_config > global config > default 300s
+            startup_timeout = config.get('execution.startup_timeout')  # Try legion config first
+            if startup_timeout is None or startup_timeout == "":
+                # Fallback to global config
+                startup_timeout = config_manager.get('worker.startup_timeout', 300)
 
-            raise RuntimeError(f"Worker on port {port_to_launch} failed to start in time.")
+            startup_timeout = int(startup_timeout)  # Ensure it's an integer
+            check_interval = 1.5  # seconds between checks
+            max_checks = int(startup_timeout / check_interval)
+
+            print(f"[LegionPower]  - Startup timeout: {startup_timeout}s (~{max_checks} checks)")
+
+            for check_num in range(max_checks):
+                if LegionWorkerManager.is_worker_alive(port_to_launch):
+                    elapsed = check_num * check_interval
+                    print(f"[LegionPower] Worker on port {port_to_launch} is now online (started in {elapsed:.1f}s)")
+                    return
+                time.sleep(check_interval)
+
+            raise RuntimeError(f"Worker on port {port_to_launch} failed to start within {startup_timeout}s timeout.")
 
     @staticmethod
     def _get_next_available_port():

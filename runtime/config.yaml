@@ -1,6 +1,16 @@
 ports:
   start_port: 8200
   max_workers: 20
+
+worker:
+  # Maximum time to wait for worker startup (in seconds)
+  # Increase this if you have many custom nodes
+  # Examples:
+  #   - Few nodes (~20): 30 seconds
+  #   - Many nodes (~100): 120 seconds
+  #   - Tons of nodes (~155): 300 seconds
+  startup_timeout: 300
+
 paths:
   worker_templates_dir: "{legion_runtime}/ComfyUIs"
   workflows_roots:
@@ -8,5 +18,6 @@ paths:
     - "{comfyui_root}/user/default/workflows"
   data_exchange_root: "{legion_runtime}/data_exchange"
   temp_root_dir: "{legion_runtime}/temp"
+
 logging:
   level: INFO

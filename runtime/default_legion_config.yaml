@@ -29,6 +29,15 @@ comfyui:
 
 # 'execution': Settings related to the execution environment.
 execution:
+  # 'startup_timeout': Maximum time to wait for this specific worker to start (in seconds)
+  #                    Leave empty to use the global default from config.yaml (usually 300s)
+  #                    Override this if this particular worker needs more/less time
+  #                    Examples:
+  #                      - Fast setup (few nodes): 30
+  #                      - Standard setup: 120
+  #                      - Heavy setup (many nodes): 600
+  startup_timeout:
+
   # 'dry_run': set this to true if you just want to test the input/output mechanics, results will be
   #            simulated, external comfyui execution will not be run
   dry_run: false
@@ -49,9 +58,10 @@ execution:
   #               TORCH_COMPILE_DISABLE: "1"             # Disable torch compilation
   #               PYTORCH_CUDA_ALLOC_CONF: "max_split_size_mb:512"
   env_vars:
-    # CUDA_VISIBLE_DEVICES: "0"
-    # TORCH_COMPILE_DISABLE: "1"
+  # CUDA_VISIBLE_DEVICES: "0"
+  # TORCH_COMPILE_DISABLE: "1"
+
 
 
 # 'workflow': path on disk of the workflow to run in the other comfyui instance
-workflow: # plain_face_restore_api.json
+workflow: plain_face_restore_api.json
