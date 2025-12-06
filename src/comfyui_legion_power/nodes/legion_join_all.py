@@ -19,7 +19,6 @@ class LegionJoinAllNode:
     RETURN_NAMES = ("campaign_1", "campaign_2", "campaign_3", "campaign_4")
     FUNCTION = "join_all_campaigns"
     CATEGORY = "Legion"
-    OUTPUT_NODE = True
 
     def join_all_campaigns(self, **kwargs):
         campaigns = [c for c in kwargs.values() if c is not None]

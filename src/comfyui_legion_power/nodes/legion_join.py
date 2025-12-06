@@ -19,7 +19,6 @@ class LegionJoinNode:
     RETURN_NAMES = ("output_1", "output_2", "output_3", "output_4", "output_5")
     FUNCTION = "join_campaign"
     CATEGORY = "Legion"
-    OUTPUT_NODE = True
 
     def join_campaign(self, legion_campaign):
         print(f"[Legion Join] Joining campaign: {legion_campaign.campaign_id}")
