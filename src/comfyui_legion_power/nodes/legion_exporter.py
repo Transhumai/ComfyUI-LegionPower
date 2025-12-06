@@ -1,9 +1,12 @@
 # src/comfyui_legion_power/nodes/legion_exporter.py
 
+import os
 from pathlib import Path
 import json
 from ..core.legion_datatypes import any
 from ..core.serializer_manager import get_serializer_for_data
+from ..legion_config_manager import LEGION_RUNTIME_PATH
+
 
 class LegionExporterNode:
     # This node is a terminal node; it doesn't have outputs in the ComfyUI sense
@@ -31,9 +34,19 @@ class LegionExporterNode:
     def export_data(self, data_exchange_root, **kwargs):
         print(f"[Legion Exporter] Starting export to: {data_exchange_root}")
 
+        # Base directory considered safe (current non-configurable behavior)
+        allowed_root = (LEGION_RUNTIME_PATH / "temp").resolve()
+
         # data_exchange_root already points to the run-specific directory
-        run_path = Path(data_exchange_root)
-        outputs_path = run_path / "outputs"
+        run_path = Path(data_exchange_root).resolve()
+        outputs_path = (run_path / "outputs").resolve()
+
+        # SECURITY CHECK — using commonpath after resolving handles symlinks/junctions safely
+        if os.path.commonpath([str(allowed_root), str(outputs_path)]) != str(allowed_root):
+            raise ValueError(
+                f"[Legion Exporter] ERROR: Output path '{outputs_path}' is outside allowed directory '{allowed_root}'."
+            )
+
         outputs_path.mkdir(parents=True, exist_ok=True)
 
         manifest = {}
@@ -60,7 +73,13 @@ class LegionExporterNode:
                 print(f"[Legion Exporter]  - Stored primitive value: {value}")
             else:
                 # For file-based types, we serialize to a subfolder
-                output_subpath = outputs_path / name
+                output_subpath = Path(outputs_path / name).resolve()
+
+                # SECURITY CHECK — using commonpath after resolving handles symlinks/junctions safely
+                if os.path.commonpath([str(allowed_root), str(output_subpath)]) != str(allowed_root):
+                    raise ValueError(
+                        f"[Legion Exporter] ERROR: Output path '{output_subpath}' is outside allowed directory '{allowed_root}'."
+                    )
 
                 # The serializer will save the data to the given path
                 serializer.serialize(data, output_subpath)

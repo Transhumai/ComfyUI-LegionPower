@@ -29,7 +29,6 @@ class LegionMasterNode:
     RETURN_NAMES = ("legion_campaign", "output_1", "output_2", "output_3", "output_4", "output_5", "output_6", "output_7", "output_8", "output_9", "output_10", "output_11", "output_12")
     FUNCTION = "execute"
     CATEGORY = "Legion"
-    OUTPUT_NODE = True
 
     def execute(self, legion_config=None, legion_campaign=None, just_warmup=False, **kwargs):
 
@@ -272,7 +271,6 @@ class LegionMasterNode3(LegionMasterNode):
     RETURN_NAMES = ("legion_campaign", "output_1", "output_2", "output_3")
     FUNCTION = "execute2"
     CATEGORY = "Legion"
-    OUTPUT_NODE = True
 
     def execute2(self, legion_config=None, legion_campaign=None, **kwargs):
         return self.execute(legion_config=legion_config, legion_campaign=legion_campaign, just_warmup=False, **kwargs)
@@ -294,7 +292,6 @@ class LegionMasterNode6(LegionMasterNode):
     RETURN_NAMES = ("legion_campaign", "output_1", "output_2", "output_3", "output_4", "output_5", "output_6")
     FUNCTION = "execute2"
     CATEGORY = "Legion"
-    OUTPUT_NODE = True
 
     def execute2(self, legion_config=None, legion_campaign=None, **kwargs):
         return self.execute(legion_config=legion_config, legion_campaign=legion_campaign, just_warmup=False, **kwargs)
