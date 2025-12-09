@@ -4,7 +4,7 @@ import folder_paths
 
 COMFYUI_ROOT_PATH = Path(folder_paths.base_path)
 LEGION_ROOT_PATH = COMFYUI_ROOT_PATH / "custom_nodes" / "ComfyUI-LegionPower"
-LEGION_RUNTIME_PATH = folder_paths.get_user_directory() / "default" / "ComfyUI-LegionPower"
+LEGION_RUNTIME_PATH = Path(folder_paths.get_user_directory()) / "default" / "ComfyUI-LegionPower"
 
 class LegionConfigManager:
     _instance = None
