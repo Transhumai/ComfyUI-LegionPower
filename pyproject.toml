@@ -1,0 +1,15 @@
+[project]
+name = "ComfyUI-LegionPower"
+description = "ComfyUI nodes for executing ComfyUI workflows in separate ComfyUI worker instance"
+version = "0.1.1"
+license = {file = "LICENSE"}
+dependencies = ["requests"]
+
+[project.urls]
+Repository = "https://github.com/Transhumai/ComfyUI-LegionPower"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = "TranshumAI"
+DisplayName = "ComfyUI-LegionPower"
+Icon = ""
